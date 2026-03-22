@@ -75,8 +75,9 @@ export default function ChatRoom() {
               <h1 className="font-bold text-foreground truncate">{community.name}</h1>
             </div>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span className={`h-2 w-2 rounded-full ${onlineCount > 0 ? "bg-green-500 animate-pulse" : "bg-muted-foreground/40"}`} />
               <Users className="h-3 w-3" />
-              <span>{community.memberCount.toLocaleString()} online</span>
+              <span>{onlineCount} online</span>
             </div>
           </div>
         </div>
