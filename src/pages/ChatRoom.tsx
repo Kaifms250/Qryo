@@ -107,7 +107,7 @@ export default function ChatRoom() {
       </div>
 
       {/* Input */}
-      <div className="flex-shrink-0 px-4 pb-4 pt-2">
+      <div className="relative z-10 flex-shrink-0 px-4 pb-4 pt-2">
         <div className="flex items-center gap-2 bg-card border border-border rounded-xl px-3 py-2">
           <input
             ref={inputRef}
