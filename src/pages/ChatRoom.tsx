@@ -4,7 +4,7 @@ import { communities } from "@/lib/communities";
 import { useChat } from "@/hooks/useChat";
 import { usePresence } from "@/hooks/usePresence";
 import { ChatMessage } from "@/components/ChatMessage";
-import { ArrowLeft, Send, Users, Loader2 } from "lucide-react";
+import { ArrowLeft, Send, Loader2 } from "lucide-react";
 
 export default function ChatRoom() {
   const { communityId } = useParams<{ communityId: string }>();
@@ -76,7 +76,6 @@ export default function ChatRoom() {
             </div>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <span className={`h-2 w-2 rounded-full ${onlineCount > 0 ? "bg-green-500 animate-pulse" : "bg-muted-foreground/40"}`} />
-              <Users className="h-3 w-3" />
               <span>{onlineCount} online</span>
             </div>
           </div>
