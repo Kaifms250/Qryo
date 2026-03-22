@@ -4,7 +4,7 @@ import { communities } from "@/lib/communities";
 import { useChat } from "@/hooks/useChat";
 import { usePresence } from "@/hooks/usePresence";
 import { ChatMessage } from "@/components/ChatMessage";
-import { ArrowLeft, Send, Users, Loader2 } from "lucide-react";
+import { ArrowLeft, Send, Loader2 } from "lucide-react";
 
 export default function ChatRoom() {
   const { communityId } = useParams<{ communityId: string }>();
