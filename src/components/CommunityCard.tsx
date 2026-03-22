@@ -24,9 +24,6 @@ export function CommunityCard({ community, index, onlineCount, onClick }: Commun
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-        <span className="absolute top-3 right-3 text-2xl opacity-80 group-hover:animate-float transition-all">
-          {community.emoji}
-        </span>
       </div>
 
       {/* Content */}
