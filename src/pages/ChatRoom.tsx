@@ -70,8 +70,7 @@ export default function ChatRoom() {
           </button>
 
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">{community.emoji}</span>
+            <div className="flex items-center">
               <h1 className="font-bold text-foreground truncate">{community.name}</h1>
             </div>
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -93,7 +92,7 @@ export default function ChatRoom() {
           </div>
         ) : messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <span className="text-4xl mb-3">{community.emoji}</span>
+            
             <p className="text-muted-foreground text-sm">
               Be the first to say something in {community.name}!
             </p>
