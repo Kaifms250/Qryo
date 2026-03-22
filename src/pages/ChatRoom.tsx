@@ -57,7 +57,7 @@ export default function ChatRoom() {
           alt=""
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-background/50" />
+        <div className="absolute inset-0" style={{ background: 'rgba(0, 0, 0, 0.5)' }} />
       </div>
 
       {/* Header */}
