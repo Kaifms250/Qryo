@@ -43,6 +43,9 @@ export default function Index() {
           className="max-w-sm mx-auto mb-12 opacity-0 animate-fade-in"
           style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
         >
+          <p className="text-sm font-medium text-primary mb-3 text-center tracking-wide">
+            Enter a username to unlock communities
+          </p>
           <div className="relative">
             <MessageCircle className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
