@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { communities } from "@/lib/communities";
 import { useChat } from "@/hooks/useChat";
+import { usePresence } from "@/hooks/usePresence";
 import { ChatMessage } from "@/components/ChatMessage";
 import { ArrowLeft, Send, Users, Loader2 } from "lucide-react";
 
