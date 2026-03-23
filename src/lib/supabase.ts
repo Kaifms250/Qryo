@@ -11,7 +11,6 @@ export interface Message {
   message_type: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: any;
-  metadata?: Record<string, unknown>;
 }
 
 export interface Room {
