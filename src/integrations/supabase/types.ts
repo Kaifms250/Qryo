@@ -20,6 +20,9 @@ export type Database = {
           content: string
           created_at: string
           id: string
+          message_type: string
+          metadata: Json | null
+          room_id: string | null
           username: string
         }
         Insert: {
@@ -27,6 +30,9 @@ export type Database = {
           content: string
           created_at?: string
           id?: string
+          message_type?: string
+          metadata?: Json | null
+          room_id?: string | null
           username: string
         }
         Update: {
@@ -34,6 +40,254 @@ export type Database = {
           content?: string
           created_at?: string
           id?: string
+          message_type?: string
+          metadata?: Json | null
+          room_id?: string | null
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pinned_messages: {
+        Row: {
+          community: string
+          id: string
+          message_id: string
+          pinned_at: string
+          pinned_by: string
+          room_id: string | null
+        }
+        Insert: {
+          community: string
+          id?: string
+          message_id: string
+          pinned_at?: string
+          pinned_by: string
+          room_id?: string | null
+        }
+        Update: {
+          community?: string
+          id?: string
+          message_id?: string
+          pinned_at?: string
+          pinned_by?: string
+          room_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pinned_messages_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: true
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pinned_messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      poll_votes: {
+        Row: {
+          created_at: string
+          id: string
+          option_index: number
+          poll_id: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          option_index: number
+          poll_id: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          option_index?: number
+          poll_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "poll_votes_poll_id_fkey"
+            columns: ["poll_id"]
+            isOneToOne: false
+            referencedRelation: "polls"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      polls: {
+        Row: {
+          community: string
+          created_at: string
+          creator_username: string
+          expires_at: string | null
+          id: string
+          options: Json
+          question: string
+          room_id: string | null
+        }
+        Insert: {
+          community: string
+          created_at?: string
+          creator_username: string
+          expires_at?: string | null
+          id?: string
+          options?: Json
+          question: string
+          room_id?: string | null
+        }
+        Update: {
+          community?: string
+          created_at?: string
+          creator_username?: string
+          expires_at?: string | null
+          id?: string
+          options?: Json
+          question?: string
+          room_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "polls_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_members: {
+        Row: {
+          id: string
+          is_kicked: boolean
+          is_muted: boolean
+          joined_at: string
+          role: string
+          room_id: string
+          username: string
+        }
+        Insert: {
+          id?: string
+          is_kicked?: boolean
+          is_muted?: boolean
+          joined_at?: string
+          role?: string
+          room_id: string
+          username: string
+        }
+        Update: {
+          id?: string
+          is_kicked?: boolean
+          is_muted?: boolean
+          joined_at?: string
+          role?: string
+          room_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_members_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rooms: {
+        Row: {
+          community: string
+          created_at: string
+          creator_username: string
+          description: string | null
+          id: string
+          is_private: boolean
+          name: string
+        }
+        Insert: {
+          community: string
+          created_at?: string
+          creator_username: string
+          description?: string | null
+          id?: string
+          is_private?: boolean
+          name: string
+        }
+        Update: {
+          community?: string
+          created_at?: string
+          creator_username?: string
+          description?: string | null
+          id?: string
+          is_private?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
+      user_badges: {
+        Row: {
+          badge_type: string
+          community: string
+          created_at: string
+          given_by: string
+          id: string
+          username: string
+        }
+        Insert: {
+          badge_type: string
+          community: string
+          created_at?: string
+          given_by: string
+          id?: string
+          username: string
+        }
+        Update: {
+          badge_type?: string
+          community?: string
+          created_at?: string
+          given_by?: string
+          id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      user_profiles: {
+        Row: {
+          avatar_style: string
+          bio: string | null
+          chat_bubble_color: string
+          created_at: string
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          avatar_style?: string
+          bio?: string | null
+          chat_bubble_color?: string
+          created_at?: string
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          avatar_style?: string
+          bio?: string | null
+          chat_bubble_color?: string
+          created_at?: string
+          updated_at?: string
           username?: string
         }
         Relationships: []
