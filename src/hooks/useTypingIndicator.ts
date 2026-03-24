@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 export function useTypingIndicator(community: string, roomId: string | null, username: string) {
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!community || !username) return;
