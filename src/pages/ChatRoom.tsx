@@ -164,7 +164,7 @@ export default function ChatRoom() {
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="relative z-10 flex-shrink-0"
+        className="relative z-40 flex-shrink-0"
       >
         <div className="relative flex items-center gap-2 px-4 py-3">
           <button onClick={() => navigate("/")} className="p-2 rounded-lg bg-secondary/80 backdrop-blur hover:bg-secondary transition-colors">
