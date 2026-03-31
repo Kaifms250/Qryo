@@ -5,9 +5,10 @@ import { toast } from "sonner";
 
 interface VoiceMessageButtonProps {
   onSend: (audioBlob: Blob, duration: number) => void;
+  onRecordingChange?: (isRecording: boolean) => void;
 }
 
-export function VoiceMessageButton({ onSend }: VoiceMessageButtonProps) {
+export function VoiceMessageButton({ onSend, onRecordingChange }: VoiceMessageButtonProps) {
   const { t } = useTranslation();
   const [recording, setRecording] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -41,6 +42,7 @@ export function VoiceMessageButton({ onSend }: VoiceMessageButtonProps) {
 
       mediaRecorder.start();
       setRecording(true);
+      onRecordingChange?.(true);
     } catch {
       toast.error(t("voice.noPermission"));
     }
@@ -50,6 +52,7 @@ export function VoiceMessageButton({ onSend }: VoiceMessageButtonProps) {
     if (mediaRecorderRef.current?.state === "recording") {
       setProcessing(true);
       setRecording(false);
+      onRecordingChange?.(false);
       mediaRecorderRef.current.stop();
     }
   };

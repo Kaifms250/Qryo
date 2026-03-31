@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export function useTypingIndicator(community: string, roomId: string | null, username: string) {
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
+  const [recordingUsers, setRecordingUsers] = useState<string[]>([]);
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -17,10 +18,14 @@ export function useTypingIndicator(community: string, roomId: string | null, use
     channel
       .on("presence", { event: "sync" }, () => {
         const state = channel.presenceState();
-        const users = Object.keys(state).filter(
+        const typing = Object.keys(state).filter(
           (u) => u !== username && state[u]?.some((s: Record<string, unknown>) => s.is_typing)
         );
-        setTypingUsers(users);
+        const recording = Object.keys(state).filter(
+          (u) => u !== username && state[u]?.some((s: Record<string, unknown>) => s.is_recording)
+        );
+        setTypingUsers(typing);
+        setRecordingUsers(recording);
       })
       .subscribe();
 
@@ -47,5 +52,13 @@ export function useTypingIndicator(community: string, roomId: string | null, use
     []
   );
 
-  return { typingUsers, setTyping };
+  const setRecording = useCallback(
+    (isRecording: boolean) => {
+      if (!channelRef.current) return;
+      channelRef.current.track({ is_recording: isRecording });
+    },
+    []
+  );
+
+  return { typingUsers, recordingUsers, setTyping, setRecording };
 }

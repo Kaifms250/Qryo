@@ -24,13 +24,11 @@ import { RoomAdminControls } from "@/components/RoomAdminControls";
 import { TypingIndicator } from "@/components/TypingIndicator";
 import { SmartMatchPanel } from "@/components/SmartMatchPanel";
 import { AnalyticsDashboard } from "@/components/AnalyticsDashboard";
-import { sanitizeInput, createRateLimiter } from "@/lib/sanitize";
+import { sanitizeInput } from "@/lib/sanitize";
 import { addAccount } from "@/lib/accounts";
 import { ArrowLeft, Send, Loader2, Pin } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
-
-const messageRateLimiter = createRateLimiter(1500);
 
 export default function ChatRoom() {
   const { t } = useTranslation();
@@ -55,7 +53,7 @@ export default function ChatRoom() {
   const { giveBadge, getBadgeCounts } = useBadges(communityId || "");
   const { profile, updateProfile } = useUserProfile(username);
   const { members, joinRoom, kickUser, muteUser, unmuteUser } = useRoomMembers(roomId || "");
-  const { typingUsers, setTyping } = useTypingIndicator(communityId || "", roomId, username);
+  const { typingUsers, recordingUsers, setTyping, setRecording } = useTypingIndicator(communityId || "", roomId, username);
   const { track } = useAnalytics(username);
 
   const isAdmin = useMemo(
@@ -109,7 +107,6 @@ export default function ChatRoom() {
     const sanitized = sanitizeInput(input);
     if (!sanitized) return;
     if (isMuted) { toast.error(t("rooms.youAreMuted")); return; }
-    if (!messageRateLimiter.canProceed()) { toast.error(t("chat.rateLimited")); return; }
     setInput("");
     setTyping(false);
     await sendMessage(username, sanitized);
@@ -288,7 +285,7 @@ export default function ChatRoom() {
 
       {/* Typing indicator */}
       <div className="relative z-10">
-        <TypingIndicator typingUsers={typingUsers} />
+        <TypingIndicator typingUsers={typingUsers} recordingUsers={recordingUsers} />
       </div>
 
       {/* Input */}
@@ -298,7 +295,7 @@ export default function ChatRoom() {
         className="relative z-10 flex-shrink-0 px-4 pb-4 pt-2"
       >
         <div className="flex items-center gap-2 bg-card border border-border rounded-xl px-3 py-2">
-          <VoiceMessageButton onSend={handleVoice} />
+          <VoiceMessageButton onSend={handleVoice} onRecordingChange={setRecording} />
           <input
             ref={inputRef}
             type="text"

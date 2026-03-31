@@ -3,11 +3,11 @@
     "tagline": "Real-time communities",
     "title": "Find Your",
     "titleHighlight": "Tribe",
-    "subtitle": "Jump into themed chat rooms and connect with people who share your passions."
+    "subtitle": "Proceed to the chatrooms"
   },
   "username": {
     "prompt": "Enter a username to unlock communities",
-    "placeholder": "Choose a username...",
+    "placeholder": "Create a username",
     "minChars": "At least 2 characters"
   },
   "chat": {
