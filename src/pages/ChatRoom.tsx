@@ -13,6 +13,7 @@ import { useTypingIndicator } from "@/hooks/useTypingIndicator";
 import { useAnalytics } from "@/hooks/useAnalytics";
 import { ChatMessage } from "@/components/ChatMessage";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { AccountSwitcher } from "@/components/AccountSwitcher";
 import { IcebreakerBanner } from "@/components/IcebreakerBanner";
 import { PollCard } from "@/components/PollCard";
@@ -48,7 +49,7 @@ export default function ChatRoom() {
   );
 
   const { messages, loading, sendMessage } = useChat(communityId || "", roomId);
-  const onlineCount = usePresence(communityId || "", username);
+  const { onlineCount, onlineUsers } = usePresence(communityId || "", username);
   const { polls, votes, createPoll, vote } = usePolls(communityId || "", roomId);
   const { giveBadge, getBadgeCounts } = useBadges(communityId || "");
   const { profile, updateProfile } = useUserProfile(username);
@@ -164,7 +165,7 @@ export default function ChatRoom() {
         className="relative z-40 flex-shrink-0"
       >
         <div className="relative flex items-center gap-2 px-4 py-3">
-          <button onClick={() => navigate("/")} className="p-2 rounded-lg bg-secondary/80 backdrop-blur hover:bg-secondary transition-colors">
+          <button onClick={() => navigate("/rooms")} className="p-2 rounded-lg bg-secondary/80 backdrop-blur hover:bg-secondary transition-colors">
             <ArrowLeft className="h-4 w-4 text-foreground" />
           </button>
 
@@ -172,14 +173,35 @@ export default function ChatRoom() {
             <h1 className="font-bold text-foreground truncate text-sm">
               {roomId ? members.find((m) => m.role === "admin")?.username + "'s Room" : t(`communities.${community.id}`)}
             </h1>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <motion.span
-                className={`h-2 w-2 rounded-full ${onlineCount > 0 ? "bg-green-500" : "bg-muted-foreground/40"}`}
-                animate={onlineCount > 0 ? { scale: [1, 1.3, 1] } : {}}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <span>{onlineCount} {t("chat.online")}</span>
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+                  <motion.span
+                    className={`h-2 w-2 rounded-full ${onlineCount > 0 ? "bg-green-500" : "bg-muted-foreground/40"}`}
+                    animate={onlineCount > 0 ? { scale: [1, 1.3, 1] } : {}}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <span>{onlineCount} {t("chat.online")}</span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-3">
+                <h3 className="font-semibold text-sm mb-2">Online Members</h3>
+                <div className="space-y-1 max-h-48 overflow-y-auto">
+                  {onlineUsers.length === 0 ? (
+                    <p className="text-xs text-muted-foreground">No one online yet</p>
+                  ) : (
+                    onlineUsers.map((user) => (
+                      <div key={user} className="flex items-center gap-2 text-sm">
+                        <span className="h-2 w-2 rounded-full bg-green-500" />
+                        <span className={user === username ? "text-primary font-medium" : ""}>
+                          {user} {user === username && "(you)"}
+                        </span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           <div className="flex items-center gap-1.5">
